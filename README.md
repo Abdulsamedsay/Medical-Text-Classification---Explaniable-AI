@@ -1,41 +1,49 @@
-# XAI for Medical Text Classification
-### Comparing LIME and Integrated Gradients on Medical Transcriptions
+# XAI in Clinical Text Classification
 
-**Course:** Explainable AI (SOW-BKI266) — Radboud University 2025-2026
+## Comparing LIME and Integrated Gradients on Medical Transcriptions
+
+**Course:** Explainable AI (SOW-BKI266)
+**Institution:** Radboud University
+**Academic Year:** 2025–2026
 
 ---
 
-## Overview
+## Project Overview
 
-This project applies two Explainable AI (XAI) methods to a transformer-based medical text classifier (DistilBERT) trained on clinical transcriptions. The goal is to compare **LIME** and **Integrated Gradients** in terms of faithfulness and interpretability in a medical NLP setting.
+In this project, I explore how two explainability methods, **LIME** and **Integrated Gradients**, help us understand the predictions of a transformer-based medical text classifier. The model is based on **DistilBERT** and is trained on clinical transcription data.
 
-**Research Question:**
+The main goal is to compare these two XAI methods in a medical NLP setting, with a focus on how understandable their explanations are and how well those explanations reflect the model’s actual decision-making process.
+
+### Research Question
+
 > How do LIME and Integrated Gradients compare in explaining the predictions of a transformer-based medical text classifier, in terms of faithfulness and interpretability?
 
 ---
 
 ## Repository Structure
 
-```
+```bash
 xai-medical-text-classification/
-├── xai_medical.ipynb                   # Main notebook (full pipeline)
-├── README.md                           # This file
-├── class_distribution.png              # Class distribution plot
-├── training_loss.png                   # Training loss over epochs
-├── lime_explanation.png                # LIME explanation output
-├── integrated_gradients_explanation.png # IG explanation output
-├── comparison_lime_vs_ig.png           # Side-by-side comparison
-└── faithfulness_deletion_test.png      # Faithfulness evaluation plot
+├── xai_medical.ipynb                      # Main notebook with the full pipeline
+├── README.md                              # Project documentation
+├── class_distribution.png                 # Plot of class distribution
+├── training_loss.png                      # Training loss over epochs
+├── lime_explanation.png                   # Example output from LIME
+├── integrated_gradients_explanation.png   # Example output from Integrated Gradients
+├── comparison_lime_vs_ig.png              # Side-by-side comparison of both methods
+└── faithfulness_deletion_test.png         # Plot for deletion-based faithfulness evaluation
 ```
 
 ---
 
 ## Requirements
 
-- Python 3.11
-- VS Code with Jupyter extension (or Jupyter Notebook)
+To run this project, you will need:
 
-Install all dependencies by running the first cell in the notebook, or manually:
+* **Python 3.11**
+* **VS Code** with the **Jupyter extension**, or any environment that supports Jupyter notebooks
+
+You can install the dependencies by running the first notebook cell, or manually with:
 
 ```bash
 pip install transformers torch captum lime scikit-learn pandas numpy matplotlib seaborn
@@ -45,19 +53,23 @@ pip install transformers torch captum lime scikit-learn pandas numpy matplotlib 
 
 ## Dataset
 
-This project uses the **Medical Transcriptions** dataset from Kaggle:
+This project uses the **Medical Transcriptions** dataset from Kaggle.
 
-1. Go to: https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions
-2. Download `mtsamples.csv`
-3. Place it in the **same folder** as `xai_medical.ipynb`
+### How to get the dataset
 
-> Note: The dataset is not included in this repository due to Kaggle terms of use.
+1. Go to the dataset page on Kaggle:
+   `https://www.kaggle.com/datasets/tboyle10/medicaltranscriptions`
+2. Download the file called `mtsamples.csv`
+3. Place it in the same folder as `xai_medical.ipynb`
+
+**Note:** The dataset is not included in this repository because of Kaggle’s terms of use.
 
 ---
 
-## How to Run
+## How to Run the Project
 
-1. Clone this repository:
+1. Clone the repository:
+
 ```bash
 git clone https://github.com/[your-username]/xai-medical-text-classification.git
 cd xai-medical-text-classification
@@ -65,38 +77,48 @@ cd xai-medical-text-classification
 
 2. Download `mtsamples.csv` from Kaggle and place it in the project folder.
 
-3. Open `xai_medical.ipynb` in VS Code.
+3. Open `xai_medical.ipynb` in VS Code or Jupyter.
 
-4. Run all cells in order from top to bottom.
+4. Run all cells from top to bottom.
 
-The notebook will:
-- Load and preprocess the dataset (top 5 medical specialties)
-- Fine-tune DistilBERT for medical specialty classification
-- Generate LIME explanations
-- Generate Integrated Gradients explanations
-- Produce a side-by-side comparison
-- Run a faithfulness deletion test
+The notebook includes the full workflow:
+
+* loading and preprocessing the dataset
+* selecting the top 5 medical specialties
+* fine-tuning DistilBERT for classification
+* generating LIME explanations
+* generating Integrated Gradients explanations
+* comparing both explanation methods visually
+* evaluating faithfulness with a deletion test
 
 ---
 
 ## Results Summary
 
-| Method | Type | Interpretability | Faithfulness |
-|---|---|---|---|
-| LIME | Model-agnostic, post-hoc | High (word-level) | Approximate |
-| Integrated Gradients | Gradient-based, model-specific | Medium (subword tokens) | Axiomatic guarantees |
+| Method               | Type                           | Interpretability             | Faithfulness                   |
+| -------------------- | ------------------------------ | ---------------------------- | ------------------------------ |
+| LIME                 | Model-agnostic, post-hoc       | High at word level           | Approximate                    |
+| Integrated Gradients | Gradient-based, model-specific | Medium due to subword tokens | Stronger theoretical grounding |
 
-**Model accuracy:** 62% on test set (5-class classification, 3 epochs)
+### Model Performance
+
+The DistilBERT classifier achieved an accuracy of **62%** on the test set for the **5-class classification task** after **3 training epochs**.
 
 ---
 
 ## XAI Methods Used
 
-- **LIME** — `lime` library (`LimeTextExplainer`)
-- **Integrated Gradients** — `captum` library (`LayerIntegratedGradients`)
+This project uses the following explainability techniques:
+
+* **LIME**, implemented with the `lime` library using `LimeTextExplainer`
+* **Integrated Gradients**, implemented with the `captum` library using `LayerIntegratedGradients`
 
 ---
 
 ## Reproducibility
 
-All experiments use a fixed random seed (`SEED = 42`) for reproducibility.
+To make the experiments reproducible, a fixed random seed is used throughout the project:
+
+```python
+SEED = 42
+```
